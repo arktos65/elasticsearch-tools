@@ -1,7 +1,7 @@
 import json
 import elasticsearch
 
-from config import ES_HOST, ES_PORT
+from config import ES_HOST, ES_PORT, DEFAULT_REPLICAS, DEFAULT_SHARDS
 
 class EsIndices(object):
     """
