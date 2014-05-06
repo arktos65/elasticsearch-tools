@@ -4,20 +4,25 @@ import elasticsearch
 from config import ES_HOST, ES_PORT
 
 class EsAliases(object):
-    """ This class manages ElasticSearch alias creation and deletion.  It provides a wrapper
-        to the RESTful API.
+    """
+    This class manages ElasticSearch alias creation and deletion.  It provides a wrapper
+    to the RESTful API.
     """
 
     def __init__(self, **kwargs):
-        """ Constructor
+        """
+        Constructor
+        """
+        pass
+
+    def create_alias(self, alias_name, index_name):
+        """
+        Create an index alias
         """
 
-    def CreateAlias(self):
-        """ Create an index
+    def delete_alias(self, alias_name):
         """
-
-    def DeleteAlias(self):
-        """ Delete an index from ElasticSearch
+        Delete an index from ElasticSearch
         """
 
 
