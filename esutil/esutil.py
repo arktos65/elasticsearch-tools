@@ -3,10 +3,7 @@ import json
 import argparse
 
 from connection import Connection
-
-
 from config import ES_HOST, ES_PORT, DEFAULT_SHARDS, DEFAULT_REPLICAS
-
 
 class EsUtil(object):
     """
@@ -14,7 +11,7 @@ class EsUtil(object):
     """
 
     # Available actions
-    OBJECT_ACTION_MAP = {'index': ['create', 'update', 'delete', 'list', 'show'],
+    OBJECT_ACTION_MAP = {'index': ['create', 'delete', 'update', 'flush', 'list', 'show', 'open', 'close'],
                          'alias': ['create', 'delete', 'list', 'show'],
                          'mapping': ['delete', 'list', 'show']}
 
@@ -36,22 +33,6 @@ class EsUtil(object):
         Route the command to the appropriate object
         """
         pass
-
-    def create_index(self):
-        """
-        Create an ElasticSearch index
-        """
-        search = self.es_connection.get_connection()
-        search.indices.create(
-            index=self.target,
-            body={
-                'settings': {
-                    'number_of_shards': self.shards,
-                    'number_of_replicas' : self.replicas
-                }
-            },
-            ignore=400
-        )
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
