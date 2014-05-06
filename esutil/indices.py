@@ -1,5 +1,6 @@
 import json
 import elasticsearch
+import argparse
 
 from config import ES_HOST, ES_PORT, DEFAULT_REPLICAS, DEFAULT_SHARDS
 
@@ -9,11 +10,17 @@ class EsIndices(object):
     to the RESTful API.
     """
 
-    def __init__(self, **kwargs):
+    def __init__(self, args):
         """
-        Constructor
+        Instantiated with the following keyword arguments:
+            action          Action verb: create, update, delete
+            index           Name of the ES index
+            host            ES cluster host name
+            port            ES cluster port number
+            shards          Number of shards (available only for create)
+            replicas        Number of replicas (available only for create and update)
         """
-        pass
+
 
     def create_index(self, index_name, shards, replicas):
         """
@@ -30,8 +37,4 @@ class EsIndices(object):
         Delete an index from ElasticSearch
         """
 
-    def create_indices(self):
-        """
-        Parses JSON and creates multiple indices, one at a time by calling CreateIndex.
-        """
 

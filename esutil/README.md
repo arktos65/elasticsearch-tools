@@ -10,7 +10,10 @@ The following prerequisites must be met:
 
 #### Python Packages
 
+Python 2.7.*
+
 - `elasticsearch` - ElasticSearch client API for Python.  (`pip install elasticsearch`)
+- `argparse` - Library for argument parsing. (`pip install argparse`)
 
 Usage
 -----
