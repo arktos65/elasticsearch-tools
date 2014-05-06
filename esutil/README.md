@@ -29,5 +29,7 @@ The utility can be used from any non-privileged account.  The syntax is:
 
 - `-h or --host` - Specify the host name of the ElasticSearch cluster.  Default: localhost
 - `-p or --port` - Specify the port number of the ElasticSearch cluster API.  Default: 9200
+- `-s or --shards` - Specify the number of shards to create.  Default: 5
+- `-r or --replicas` - Specify the number of replicas to create.  Default: 1
 - `--help` - Display usage information.
 
