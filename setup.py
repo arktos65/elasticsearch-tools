@@ -3,7 +3,7 @@ from distutils.core import setup
 setup(
     name='elasticsearch-tools',
     version='0.1.0',
-    packages=['elasticsearch'],
+    packages=['elasticsearch', 'argparse'],
     url='https://github.com/arktos65/elasticsearch-tools',
     license='GPL v2',
     author='Sean M. Sullivan',
