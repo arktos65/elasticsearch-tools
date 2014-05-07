@@ -4,6 +4,7 @@ import argparse
 
 from connection import Connection
 from config import ES_HOST, ES_PORT, DEFAULT_SHARDS, DEFAULT_REPLICAS
+from indices import Indices
 
 class EsUtil(object):
     """
@@ -22,6 +23,7 @@ class EsUtil(object):
         self.object = args.object
         self.action = args.action
         self.target = args.target
+        self.target_index = args.target_index
         self.host = args.host
         self.port = args.port
         self.shards = args.shards
@@ -30,9 +32,27 @@ class EsUtil(object):
 
     def execute(self):
         """
-        Route the command to the appropriate object
+        Route the command to the appropriate command processor method in this class
         """
-        pass
+        if self.object == "index":
+            self.index_command()
+
+    def index_command(self):
+        """
+        Route index command to appropriate method in the Indices class
+        """
+        action = Indices(self.host, self.port)
+
+        if self.action == "create":
+            action.create_index(self.target, self.host, self. port)
+        elif self.action == "delete":
+            action.delete_index(self.target)
+        elif self.action == "open":
+            action.open_index(self.target)
+        elif self.action == "close":
+            action.close_index(self.target)
+        elif self.action == "flush":
+            action.flush_index(self.target)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -43,6 +63,7 @@ if __name__ == "__main__":
     parser.add_argument('object', choices=EsUtil.OBJECT_ACTION_MAP.keys(), required=True)
     parser.add_argument('action', choices=list(set(sum(EsUtil.OBJECT_ACTION_MAP.values(), []))), required=True)
     parser.add_argument('target', action='store', dest='target', required=True)
+    parser.add_argument('target_index', action='store', dest='target_index')
 
     # Declare command line switches
     parser.add_argument('-h', '--host', action='store', dest='host', default=ES_HOST)
