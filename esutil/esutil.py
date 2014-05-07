@@ -40,9 +40,9 @@ if __name__ == "__main__":
                     'index management.')
 
     # Declare the objects and actions
-    parser.add_argument('object', choices=EsUtil.OBJECT_ACTION_MAP.keys())
-    parser.add_argument('action', choices=list(set(sum(EsUtil.OBJECT_ACTION_MAP.values(), []))))
-    parser.add_argument('target', action='store', dest='target')
+    parser.add_argument('object', choices=EsUtil.OBJECT_ACTION_MAP.keys(), required=True)
+    parser.add_argument('action', choices=list(set(sum(EsUtil.OBJECT_ACTION_MAP.values(), []))), required=True)
+    parser.add_argument('target', action='store', dest='target', required=True)
 
     # Declare command line switches
     parser.add_argument('-h', '--host', action='store', dest='host', default=ES_HOST)
