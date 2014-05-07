@@ -5,6 +5,7 @@ import argparse
 from connection import Connection
 from config import ES_HOST, ES_PORT, DEFAULT_SHARDS, DEFAULT_REPLICAS
 from indices import Indices
+from aliases import Aliases
 
 class EsUtil(object):
     """
@@ -36,6 +37,8 @@ class EsUtil(object):
         """
         if self.object == "index":
             self.index_command()
+        elif self.object == "alias":
+            self.alias_command()
 
     def index_command(self):
         """
@@ -53,6 +56,19 @@ class EsUtil(object):
             action.close_index(self.target)
         elif self.action == "flush":
             action.flush_index(self.target)
+
+    def alias_command(self):
+        """
+        Route alias command to appropriate method in the Aliases class
+        """
+        action = Aliases(self.host, self.port)
+
+        if self.action == "create":
+            action.create_alias(self.target, self.target_index)
+        elif self.action == "delete":
+            action.delete_alias(self.target, self.target_index)
+        elif self.action == "list":
+            action.list_alias(self.target_index)
 
 # Parse the arguments before instantiating the object class
 if __name__ == "__main__":
