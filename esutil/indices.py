@@ -19,7 +19,8 @@ class Indices(object):
         """
         Create an ElasticSearch index
         """
-        self.es_connection.indices.create(
+        es = self.es_connection.get_connection()
+        es.indices.create(
             index=index_name,
             body={
                 'settings': {
@@ -35,24 +36,28 @@ class Indices(object):
         """
         Delete an ElasticSearch index
         """
-        self.es_connection.indices.delete(index=index_name)
+        es = self.es_connection.get_connection()
+        es.indices.delete(index=index_name)
 
     def open_index(self, index_name):
         """
         Open a closed index in the ElasticSearch cluster
         """
-        self.es_connection.indices.open(index=index_name)
+        es = self.es_connection.get_connection()
+        es.indices.open(index=index_name)
 
     def close_index(self, index_name):
         """
         Close an index on the ElasticSearch cluster
         """
-        self.es_connection.indices.close(index=index_name)
+        es = self.es_connection.get_connection()
+        es.indices.close(index=index_name)
 
     def flush_index(self, index_name):
         """
         Flush all of the documents out of the target index
         """
-        self.es_connection.indices.flush(index=index_name)
+        es = self.es_connection.get_connection()
+        es.indices.flush(index=index_name)
 
 

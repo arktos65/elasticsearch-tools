@@ -44,7 +44,7 @@ class EsUtil(object):
         action = Indices(self.host, self.port)
 
         if self.action == "create":
-            action.create_index(self.target, self.host, self. port)
+            action.create_index(self.target, self.shards, self.replicas)
         elif self.action == "delete":
             action.delete_index(self.target)
         elif self.action == "open":
@@ -54,22 +54,23 @@ class EsUtil(object):
         elif self.action == "flush":
             action.flush_index(self.target)
 
+# Parse the arguments before instantiating the object class
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description='This utility provides a shell commandline wrapper to the ElasticSearch RESTful API, simplifying '
                     'index management.')
 
     # Declare the objects and actions
-    parser.add_argument('object', choices=EsUtil.OBJECT_ACTION_MAP.keys(), required=True)
-    parser.add_argument('action', choices=list(set(sum(EsUtil.OBJECT_ACTION_MAP.values(), []))), required=True)
-    parser.add_argument('target', action='store', dest='target', required=True)
-    parser.add_argument('target_index', action='store', dest='target_index')
+    parser.add_argument('object', choices=EsUtil.OBJECT_ACTION_MAP.keys())
+    parser.add_argument('action', choices=list(set(sum(EsUtil.OBJECT_ACTION_MAP.values(), []))))
+    parser.add_argument('target', action='store')
 
     # Declare command line switches
-    parser.add_argument('-h', '--host', action='store', dest='host', default=ES_HOST)
-    parser.add_argument('-p', '--port', action='store', dest='port', type=int, default=ES_PORT)
+    parser.add_argument('-H', '--host', action='store', dest='host', default=ES_HOST)
+    parser.add_argument('-P', '--port', action='store', dest='port', type=int, default=ES_PORT)
     parser.add_argument('-s', '--shards', action='store', dest='shards', type=int, default=DEFAULT_SHARDS)
     parser.add_argument('-r', '--replicas', action='store', dest='replicas', type=int, default=DEFAULT_REPLICAS)
+    parser.add_argument('-i', '--index', action='store', dest='target_index')
 
     # Parse the arguments and check for a match
     args = parser.parse_args()
