@@ -1,5 +1,4 @@
-import json
-
+from elasticsearch import RequestError
 from connection import Connection
 
 class Indices(object):
@@ -23,7 +22,7 @@ class Indices(object):
             replicas        Number of replicas for index
         """
         es = self.es_connection.get_connection()
-        es.indices.create(
+        result = es.indices.create(
             index=index_name,
             body={
                 'settings': {
@@ -35,13 +34,27 @@ class Indices(object):
             ignore=400
         )
 
+        if result and result.get('acknowledged'):
+            print "acknowledged: %s" % result['acknowledged']
+        elif result.get('error'):
+            print "error: %s" % result['error']
+        else:
+            raise RequestError("An unknown error occurred in your request.")
+
     def delete_index(self, index_name):
         """
         Delete an ElasticSearch index
             index_name      Name of index to be deleted
         """
         es = self.es_connection.get_connection()
-        es.indices.delete(index=index_name)
+        result = es.indices.delete(index=index_name)
+
+        if result and result.get('acknowledged'):
+            print "acknowledged: %s" % result['acknowledged']
+        elif result.get('error'):
+            print "error: %s" % result['error']
+        else:
+            raise RequestError("An unknown error occurred in your request.")
 
     def open_index(self, index_name):
         """
@@ -49,7 +62,14 @@ class Indices(object):
             index_name      Name of index to be opened
         """
         es = self.es_connection.get_connection()
-        es.indices.open(index=index_name)
+        result = es.indices.open(index=index_name)
+
+        if result and result.get('acknowledged'):
+            print "acknowledged: %s" % result['acknowledged']
+        elif result.get('error'):
+            print "error: %s" % result['error']
+        else:
+            raise RequestError("An unknown error occurred in your request.")
 
     def close_index(self, index_name):
         """
@@ -57,7 +77,14 @@ class Indices(object):
             index_name      Name of index to be closed
         """
         es = self.es_connection.get_connection()
-        es.indices.close(index=index_name)
+        result = es.indices.close(index=index_name)
+
+        if result and result.get('acknowledged'):
+            print "acknowledged: %s" % result['acknowledged']
+        elif result.get('error'):
+            print "error: %s" % result['error']
+        else:
+            raise RequestError("An unknown error occurred in your request.")
 
     def flush_index(self, index_name):
         """
@@ -65,6 +92,13 @@ class Indices(object):
             index_name      Name of index to be flushed
         """
         es = self.es_connection.get_connection()
-        es.indices.flush(index=index_name)
+        result = es.indices.flush(index=index_name)
+
+        if result and result.get('acknowledged'):
+            print "acknowledged: %s" % result['acknowledged']
+        elif result.get('error'):
+            print "error: %s" % result['error']
+        else:
+            raise RequestError("An unknown error occurred in your request.")
 
 

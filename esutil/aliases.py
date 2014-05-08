@@ -1,6 +1,5 @@
-import json
-
 from connection import Connection
+from elasticsearch import RequestError
 
 class Aliases(object):
     """
@@ -22,11 +21,18 @@ class Aliases(object):
             index_name      The index the alias points to
         """
         es = self.es_connection.get_connection()
-        es.indices.put_alias(
+        result = es.indices.put_alias(
             name=alias_name,
             index=index_name,
             ignore=400
         )
+
+        if result and result.get('acknowledged'):
+            print "acknowledged: %s" % result['acknowledged']
+        elif result.get('error'):
+            print "error: %s" % result['error']
+        else:
+            raise RequestError("An unknown error occurred in your request.")
 
     def delete_alias(self, alias_name, index_name):
         """
@@ -35,10 +41,17 @@ class Aliases(object):
             index_name      The index that the alias points to
         """
         es = self.es_connection.get_connection()
-        es.indices.delete_alias(
+        result = es.indices.delete_alias(
             index=index_name,
             name=alias_name
         )
+
+        if result and result.get('acknowledged'):
+            print "acknowledged: %s" % result['acknowledged']
+        elif result.get('error'):
+            print "error: %s" % result['error']
+        else:
+            raise RequestError("An unknown error occurred in your request.")
 
     def list_alias(self, index_name):
         """
