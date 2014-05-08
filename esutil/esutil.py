@@ -1,5 +1,3 @@
-import sys
-import json
 import argparse
 
 from connection import Connection
@@ -79,14 +77,14 @@ if __name__ == "__main__":
     # Declare the objects and actions
     parser.add_argument('object', choices=EsUtil.OBJECT_ACTION_MAP.keys())
     parser.add_argument('action', choices=list(set(sum(EsUtil.OBJECT_ACTION_MAP.values(), []))))
-    parser.add_argument('target', action='store')
+    parser.add_argument('target', action='store', nargs="?", default="_all")
 
     # Declare command line switches
     parser.add_argument('-H', '--host', action='store', dest='host', default=ES_HOST)
     parser.add_argument('-P', '--port', action='store', dest='port', type=int, default=ES_PORT)
     parser.add_argument('-s', '--shards', action='store', dest='shards', type=int, default=DEFAULT_SHARDS)
     parser.add_argument('-r', '--replicas', action='store', dest='replicas', type=int, default=DEFAULT_REPLICAS)
-    parser.add_argument('-i', '--index', action='store', dest='target_index')
+    parser.add_argument('-i', '--index', action='store', dest='target_index', default="_all")
 
     # Parse the arguments and check for a match
     args = parser.parse_args()

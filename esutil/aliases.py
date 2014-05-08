@@ -1,3 +1,5 @@
+import json
+
 from connection import Connection
 from elasticsearch import RequestError
 
@@ -59,9 +61,17 @@ class Aliases(object):
         """
         es = self.es_connection.get_connection()
         if not index_name:
-            es.indices.get_aliases()
+            result = es.indices.get_aliases()
         else:
-            es.indices.get_aliases(index=index_name)
+            result = es.indices.get_aliases(index=index_name)
+
+        # Print an error if one occurred
+        if result.get('error'):
+            print "error: %s" % result['error']
+            return
+
+        # Display results
+        print json.dumps(result, sort_keys=True, indent=4, separators=(',',': '))
 
     def show_alias(self, alias_name):
         """
