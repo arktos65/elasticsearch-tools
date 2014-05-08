@@ -11,7 +11,7 @@ class EsUtil(object):
     """
 
     # Available actions
-    OBJECT_ACTION_MAP = {'index': ['create', 'delete', 'update', 'flush', 'list', 'show', 'open', 'close'],
+    OBJECT_ACTION_MAP = {'index': ['create', 'delete', 'update', 'flush', 'list', 'open', 'close'],
                          'alias': ['create', 'delete', 'list', 'show'],
                          'mapping': ['delete', 'list', 'show']}
 
@@ -54,6 +54,8 @@ class EsUtil(object):
             action.close_index(self.target)
         elif self.action == "flush":
             action.flush_index(self.target)
+        elif self.action == "list":
+            action.list_index(self.target)
 
     def alias_command(self):
         """

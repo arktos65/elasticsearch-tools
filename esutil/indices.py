@@ -1,3 +1,5 @@
+import json
+
 from elasticsearch import RequestError
 from connection import Connection
 
@@ -101,4 +103,18 @@ class Indices(object):
         else:
             raise RequestError("An unknown error occurred in your request.")
 
+    def list_index(self, index_name):
+        """
+        Display a list of indices in the ElasticSearch cluster.
+        """
+        es = self.es_connection.get_connection()
+        result = es.indices.get_settings(index=index_name)
+
+        # If there is an error, display it
+        if result.get('error'):
+            print "error: %s" % result['error']
+            return
+
+        # Display results
+        print json.dumps(result, sort_keys=True, indent=4, separators=(',',': '))
 
