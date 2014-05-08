@@ -58,6 +58,7 @@ class Aliases(object):
     def list_alias(self, index_name):
         """
         List the aliases defined on the ElasticSearch cluster.
+            index_name      Name of index to list aliases (default is _all)
         """
         es = self.es_connection.get_connection()
         if not index_name:

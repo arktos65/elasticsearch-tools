@@ -106,6 +106,7 @@ class Indices(object):
     def list_index(self, index_name):
         """
         Display a list of indices in the ElasticSearch cluster.
+            index_name      Name of index to list (default is _all)
         """
         es = self.es_connection.get_connection()
         result = es.indices.get_settings(index=index_name)
