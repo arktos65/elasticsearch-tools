@@ -7,6 +7,6 @@ setup(
     url='https://github.com/arktos65/elasticsearch-tools',
     license='GPL v2',
     author='Sean M. Sullivan',
-    author_email='sean@pulselocker.com',
+    author_email='sean@barriquesoft.com',
     description='Command line tools to make ElasticSearch management easier.'
 )
