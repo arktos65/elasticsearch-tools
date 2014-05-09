@@ -2,6 +2,7 @@ import json
 
 from elasticsearch import RequestError
 from connection import Connection
+from result import acknowledge_result
 
 class Indices(object):
     """
@@ -36,12 +37,9 @@ class Indices(object):
             ignore=400
         )
 
-        if result and result.get('acknowledged'):
-            print "acknowledged: %s" % result['acknowledged']
-        elif result.get('error'):
-            print "error: %s" % result['error']
-        else:
-            raise RequestError("An unknown error occurred in your request.")
+        # Display error if there is one
+        acknowledge_result(result)
+
 
     def delete_index(self, index_name):
         """
@@ -51,12 +49,8 @@ class Indices(object):
         es = self.es_connection.get_connection()
         result = es.indices.delete(index=index_name)
 
-        if result and result.get('acknowledged'):
-            print "acknowledged: %s" % result['acknowledged']
-        elif result.get('error'):
-            print "error: %s" % result['error']
-        else:
-            raise RequestError("An unknown error occurred in your request.")
+        # Display error if there is one
+        acknowledge_result(result)
 
     def open_index(self, index_name):
         """
@@ -66,12 +60,8 @@ class Indices(object):
         es = self.es_connection.get_connection()
         result = es.indices.open(index=index_name)
 
-        if result and result.get('acknowledged'):
-            print "acknowledged: %s" % result['acknowledged']
-        elif result.get('error'):
-            print "error: %s" % result['error']
-        else:
-            raise RequestError("An unknown error occurred in your request.")
+        # Display error if there is one
+        acknowledge_result(result)
 
     def close_index(self, index_name):
         """
@@ -81,12 +71,8 @@ class Indices(object):
         es = self.es_connection.get_connection()
         result = es.indices.close(index=index_name)
 
-        if result and result.get('acknowledged'):
-            print "acknowledged: %s" % result['acknowledged']
-        elif result.get('error'):
-            print "error: %s" % result['error']
-        else:
-            raise RequestError("An unknown error occurred in your request.")
+        # Display error if there is one
+        acknowledge_result(result)
 
     def flush_index(self, index_name):
         """
@@ -96,12 +82,8 @@ class Indices(object):
         es = self.es_connection.get_connection()
         result = es.indices.flush(index=index_name)
 
-        if result and result.get('acknowledged'):
-            print "acknowledged: %s" % result['acknowledged']
-        elif result.get('error'):
-            print "error: %s" % result['error']
-        else:
-            raise RequestError("An unknown error occurred in your request.")
+        # Display error if there is one
+        acknowledge_result(result)
 
     def list_index(self, index_name):
         """
@@ -111,11 +93,8 @@ class Indices(object):
         es = self.es_connection.get_connection()
         result = es.indices.get_settings(index=index_name)
 
-        # If there is an error, display it
-        if result.get('error'):
-            print "error: %s" % result['error']
-            return
-
-        # Display results
-        print json.dumps(result, sort_keys=True, indent=4, separators=(',',': '))
+        # Print an error if one occurred
+        if not acknowledge_result(result):
+            # Display results
+            print json.dumps(result, sort_keys=True, indent=4, separators=(',',': '))
 

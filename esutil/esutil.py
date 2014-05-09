@@ -4,6 +4,7 @@ from connection import Connection
 from config import ES_HOST, ES_PORT, DEFAULT_SHARDS, DEFAULT_REPLICAS
 from indices import Indices
 from aliases import Aliases
+from cluster import Cluster
 
 class EsUtil(object):
     """
@@ -13,7 +14,8 @@ class EsUtil(object):
     # Available actions
     OBJECT_ACTION_MAP = {'index': ['create', 'delete', 'update', 'flush', 'list', 'open', 'close'],
                          'alias': ['create', 'delete', 'list', 'show'],
-                         'mapping': ['delete', 'list', 'show']}
+                         'mapping': ['delete', 'list', 'show'],
+                         'cluster': ['health', 'state']}
 
     def __init__(self, args):
         """
@@ -37,6 +39,8 @@ class EsUtil(object):
             self.index_command()
         elif self.object == "alias":
             self.alias_command()
+        elif self.object == "cluster":
+            self.cluster_command()
 
     def index_command(self):
         """
@@ -69,6 +73,16 @@ class EsUtil(object):
             action.delete_alias(self.target, self.target_index)
         elif self.action == "list":
             action.list_alias(self.target_index)
+
+    def cluster_command(self):
+        """
+        Route cluster command to appropriate method in Cluster class
+        """
+        action = Cluster(self.host, self.port)
+
+        if self.action == "health":
+            action.cluster_health(self.target_index)
+
 
 # Parse the arguments before instantiating the object class
 if __name__ == "__main__":
