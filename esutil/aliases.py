@@ -2,6 +2,7 @@ import json
 
 from connection import Connection
 from elasticsearch import RequestError
+from result import acknowledge_result
 
 class Aliases(object):
     """
@@ -29,12 +30,8 @@ class Aliases(object):
             ignore=400
         )
 
-        if result and result.get('acknowledged'):
-            print "acknowledged: %s" % result['acknowledged']
-        elif result.get('error'):
-            print "error: %s" % result['error']
-        else:
-            raise RequestError("An unknown error occurred in your request.")
+        # Display error if there is one
+        acknowledge_result(result)
 
     def delete_alias(self, alias_name, index_name):
         """
@@ -48,12 +45,8 @@ class Aliases(object):
             name=alias_name
         )
 
-        if result and result.get('acknowledged'):
-            print "acknowledged: %s" % result['acknowledged']
-        elif result.get('error'):
-            print "error: %s" % result['error']
-        else:
-            raise RequestError("An unknown error occurred in your request.")
+        # Display error if there is one
+        acknowledge_result(result)
 
     def list_alias(self, index_name):
         """
@@ -67,12 +60,7 @@ class Aliases(object):
             result = es.indices.get_aliases(index=index_name)
 
         # Print an error if one occurred
-        if result.get('error'):
-            print "error: %s" % result['error']
-            return
-
-        # Display results
-        print json.dumps(result, sort_keys=True, indent=4, separators=(',',': '))
+        acknowledge_result(result)
 
     def show_alias(self, alias_name):
         """

@@ -27,6 +27,7 @@ The utility can be used from any non-privileged account.  The syntax is:
 - `index` - Interact with ElasticSearch indices.  Actions: create, update, delete, open, close, flush
 - `alias` - Interact with ElasticSearch index aliases.  Actions:  create, delete
 - `mapping` - Interact with ElasticSearch index mappings.  Actions: list, delete
+- `cluster` - ElasticSearch management features.  Actions: health, state
 
 #### Switches
 
