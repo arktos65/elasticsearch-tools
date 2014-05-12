@@ -1,6 +1,7 @@
+import json
 from elasticsearch import RequestError
 
-def acknowledge_result(self, result):
+def acknowledge_result(results):
     """
     Interpret a result from an ElasticSearch API call and display it.
         result          Dictionary object from ElasticSearch API
@@ -11,12 +12,14 @@ def acknowledge_result(self, result):
 
     error_status = True
 
-    if result and result.get('acknowledged'):
-        print "acknowledged: %s" % result['acknowledged']
+    if results and results.get('acknowledged'):
+        print "acknowledged: %s" % results['acknowledged']
         error_status = False
-    elif result.get('error'):
-        print "error: %s" % result['error']
-    else:
+    elif results and results.get('error'):
+        print "error: %s" % results['error']
+    elif not results:
         raise RequestError("An unknown error occurred in your request.")
+    else:
+        print json.dumps(results, sort_keys=True, indent=4, separators=(',',': '))
 
     return error_status

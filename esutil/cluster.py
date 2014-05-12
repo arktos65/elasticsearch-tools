@@ -28,6 +28,4 @@ class Cluster(object):
             result = es.cluster.health(index=index_name)
 
         # Print an error if one occurred
-        if not acknowledge_result(result):
-            # Display results
-            print json.dumps(result, sort_keys=True, indent=4, separators=(',',': '))
+        acknowledge_result(result)

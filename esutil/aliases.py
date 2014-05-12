@@ -60,9 +60,7 @@ class Aliases(object):
             result = es.indices.get_aliases(index=index_name)
 
         # Print an error if one occurred
-        if not acknowledge_result(result):
-            # Display results
-            print json.dumps(result, sort_keys=True, indent=4, separators=(',',': '))
+        acknowledge_result(result)
 
     def show_alias(self, alias_name):
         """

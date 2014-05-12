@@ -71,7 +71,7 @@ class Indices(object):
         es = self.es_connection.get_connection()
         result = es.indices.close(index=index_name)
 
-        # Display error if there is one
+        # Print an error if one occurred
         acknowledge_result(result)
 
     def flush_index(self, index_name):
@@ -82,7 +82,7 @@ class Indices(object):
         es = self.es_connection.get_connection()
         result = es.indices.flush(index=index_name)
 
-        # Display error if there is one
+        # Print an error if one occurred
         acknowledge_result(result)
 
     def list_index(self, index_name):
@@ -94,7 +94,5 @@ class Indices(object):
         result = es.indices.get_settings(index=index_name)
 
         # Print an error if one occurred
-        if not acknowledge_result(result):
-            # Display results
-            print json.dumps(result, sort_keys=True, indent=4, separators=(',',': '))
+        acknowledge_result(result)
 
