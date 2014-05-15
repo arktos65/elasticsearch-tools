@@ -12,8 +12,8 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-from connection import Connection
-from result import acknowledge_result
+from lib.connection import Connection
+from lib.result import acknowledge_result
 
 class Aliases(object):
     """

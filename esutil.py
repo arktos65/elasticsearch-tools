@@ -14,11 +14,12 @@
 
 import argparse
 
-from connection import Connection
+from lib.aliases import Aliases
+from lib.cluster import Cluster
+from lib.indices import Indices
+from lib.connection import Connection
+
 from config import ES_HOST, ES_PORT, DEFAULT_SHARDS, DEFAULT_REPLICAS
-from indices import Indices
-from aliases import Aliases
-from cluster import Cluster
 
 class EsUtil(object):
     """
