@@ -86,6 +86,8 @@ Author: Sean M. Sullivan (<sean@pulselocker.com>)
 
 Contributor: Mike McConnell (<mikem@pulselocker.com>)
 
+This software is distributed under the Apache License v2.0.  See LICENSE file for details.
+
 
 
 
