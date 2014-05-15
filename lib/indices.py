@@ -107,3 +107,12 @@ class Indices(object):
         # Print an error if one occurred
         acknowledge_result(result)
 
+    def show_stats(self, index_name):
+        """
+        Display performance metrics for specified index.
+        """
+        es = self.es_connection.get_connection()
+        result = es.indices.stats(index_name)
+
+        # Print an error if one occurred
+        acknowledge_result(result)

@@ -30,8 +30,9 @@ class EsUtil(object):
     # Available actions
     OBJECT_ACTION_MAP = {'index': ['create', 'delete', 'flush', 'list', 'open', 'close'],
                          'alias': ['create', 'delete', 'list'],
-                         'mapping': ['delete', 'list', 'show'],
-                         'cluster': ['health', 'state']}
+                         'mapping': ['list', 'show'],
+                         'cluster': ['health', 'state'],
+                         'stats': ['show']}
 
     def __init__(self, args):
         """
@@ -59,6 +60,8 @@ class EsUtil(object):
             self.cluster_command()
         elif self.object == "mapping":
             self.mapping_command()
+        elif self.object == "stats":
+            self.stats_command()
 
     def index_command(self):
         """
@@ -110,6 +113,16 @@ class EsUtil(object):
         if self.action == "list":
             action.list_mapping(self.target_index)
 
+    def stats_command(self):
+        """
+        Show performance metrics of ElasticSearch cluster
+        """
+
+        action = Indices(self.host, self.port)
+
+        if self.action == "show":
+            action.show_stats(self.target_index)
+
 # Parse the arguments before instantiating the object class
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -127,6 +140,7 @@ if __name__ == "__main__":
     parser.add_argument('-s', '--shards', action='store', dest='shards', type=int, default=DEFAULT_SHARDS)
     parser.add_argument('-r', '--replicas', action='store', dest='replicas', type=int, default=DEFAULT_REPLICAS)
     parser.add_argument('-i', '--index', action='store', dest='target_index', default="_all")
+    parser.add_argument('-f', '--field', action='store', dest='field', default="_all")
 
     # Parse the arguments and check for a match
     args = parser.parse_args()
