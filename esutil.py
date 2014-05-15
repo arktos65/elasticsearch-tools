@@ -17,6 +17,7 @@ import argparse
 from lib.aliases import Aliases
 from lib.cluster import Cluster
 from lib.indices import Indices
+from lib.mapping import Mapping
 from lib.connection import Connection
 
 from config import ES_HOST, ES_PORT, DEFAULT_SHARDS, DEFAULT_REPLICAS
@@ -27,8 +28,8 @@ class EsUtil(object):
     """
 
     # Available actions
-    OBJECT_ACTION_MAP = {'index': ['create', 'delete', 'update', 'flush', 'list', 'open', 'close'],
-                         'alias': ['create', 'delete', 'list', 'show'],
+    OBJECT_ACTION_MAP = {'index': ['create', 'delete', 'flush', 'list', 'open', 'close'],
+                         'alias': ['create', 'delete', 'list'],
                          'mapping': ['delete', 'list', 'show'],
                          'cluster': ['health', 'state']}
 
@@ -56,6 +57,8 @@ class EsUtil(object):
             self.alias_command()
         elif self.object == "cluster":
             self.cluster_command()
+        elif self.object == "mapping":
+            self.mapping_command()
 
     def index_command(self):
         """
@@ -98,6 +101,14 @@ class EsUtil(object):
         if self.action == "health":
             action.cluster_health(self.target_index)
 
+    def mapping_command(self):
+        """
+        Route mapping command to appropriate method in the Mapping class
+        """
+        action = Mapping(self.host, self.port)
+
+        if self.action == "list":
+            action.list_mapping(self.target_index)
 
 # Parse the arguments before instantiating the object class
 if __name__ == "__main__":
