@@ -30,6 +30,7 @@ The utility can be used from any non-privileged account.  The syntax is:
 - `alias` - Interact with ElasticSearch index aliases.  Actions:  create, delete
 - `mapping` - Interact with ElasticSearch index mappings.  Actions: list, delete
 - `cluster` - ElasticSearch management features.  Actions: health, state
+- `stats` - ElasticSearch performance metrics.  Actions: show
 
 #### Switches
 
@@ -38,6 +39,7 @@ The utility can be used from any non-privileged account.  The syntax is:
 - `-s or --shards` - Specify the number of shards to create.  Default: 5
 - `-r or --replicas` - Specify the number of replicas to create.  Default: 1
 - `-i or --index` - Specify a target index to perform operation on.
+- `-f or --field` - Specify a field to perform operation on.
 - `--help` - Display usage information.
 
 #### Examples
@@ -83,6 +85,8 @@ Authors & License
 Author: Sean M. Sullivan (<sean@pulselocker.com>)
 
 Contributor: Mike McConnell (<mikem@pulselocker.com>)
+
+This software is distributed under the Apache License v2.0.  See LICENSE file for details.
 
 
 

@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # Copyright (c) 2014 Pulselocker, Inc.
 #
 #    Licensed under the Apache License, Version 2.0 (the "License"); you may
@@ -17,6 +19,7 @@ import argparse
 from lib.aliases import Aliases
 from lib.cluster import Cluster
 from lib.indices import Indices
+from lib.mapping import Mapping
 from lib.connection import Connection
 
 from config import ES_HOST, ES_PORT, DEFAULT_SHARDS, DEFAULT_REPLICAS
@@ -27,10 +30,11 @@ class EsUtil(object):
     """
 
     # Available actions
-    OBJECT_ACTION_MAP = {'index': ['create', 'delete', 'update', 'flush', 'list', 'open', 'close'],
-                         'alias': ['create', 'delete', 'list', 'show'],
-                         'mapping': ['delete', 'list', 'show'],
-                         'cluster': ['health', 'state']}
+    OBJECT_ACTION_MAP = {'index': ['create', 'delete', 'flush', 'list', 'open', 'close'],
+                         'alias': ['create', 'delete', 'list'],
+                         'mapping': ['list', 'show'],
+                         'cluster': ['health', 'state'],
+                         'stats': ['show']}
 
     def __init__(self, args):
         """
@@ -56,6 +60,10 @@ class EsUtil(object):
             self.alias_command()
         elif self.object == "cluster":
             self.cluster_command()
+        elif self.object == "mapping":
+            self.mapping_command()
+        elif self.object == "stats":
+            self.stats_command()
 
     def index_command(self):
         """
@@ -98,6 +106,24 @@ class EsUtil(object):
         if self.action == "health":
             action.cluster_health(self.target_index)
 
+    def mapping_command(self):
+        """
+        Route mapping command to appropriate method in the Mapping class
+        """
+        action = Mapping(self.host, self.port)
+
+        if self.action == "list":
+            action.list_mapping(self.target_index)
+
+    def stats_command(self):
+        """
+        Show performance metrics of ElasticSearch cluster
+        """
+
+        action = Indices(self.host, self.port)
+
+        if self.action == "show":
+            action.show_stats(self.target_index)
 
 # Parse the arguments before instantiating the object class
 if __name__ == "__main__":
@@ -116,6 +142,7 @@ if __name__ == "__main__":
     parser.add_argument('-s', '--shards', action='store', dest='shards', type=int, default=DEFAULT_SHARDS)
     parser.add_argument('-r', '--replicas', action='store', dest='replicas', type=int, default=DEFAULT_REPLICAS)
     parser.add_argument('-i', '--index', action='store', dest='target_index', default="_all")
+    parser.add_argument('-f', '--field', action='store', dest='field', default="_all")
 
     # Parse the arguments and check for a match
     args = parser.parse_args()
