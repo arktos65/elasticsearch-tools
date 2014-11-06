@@ -83,6 +83,7 @@ The utility can be used from any non-privileged account.  The syntax is:
 Authors & License
 -----------------
 Author: Sean M. Sullivan (<sean@pulselocker.com>)
+
 Contributor: Mike McConnell (<mikem@pulselocker.com>)
 
 ```text
